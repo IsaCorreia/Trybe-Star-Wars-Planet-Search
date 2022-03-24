@@ -5,10 +5,7 @@ import MyContext from './myContext';
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
-  const contextValue = {
-    planets,
-    setPlanets,
-  };
+  const [filterInput, setFilterInput] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -18,6 +15,32 @@ function Provider({ children }) {
 
     fetchData();
   }, []);
+
+  const onInputChange = ({ target }) => {
+    switch (target.id) {
+    case 'filterByName':
+      setFilterInput({ [target.id]: target.value });
+      break;
+    default: break;
+    }
+  };
+
+  useEffect(() => {
+    const { filterByName } = filterInput;
+    const final = planets.filter((planet) => planet.name !== filterByName);
+    console.log(final);
+    // PERIGO ABAIXO!!!
+    // setPlanets(final);
+  }, [filterInput, planets]);
+
+  const contextValue = {
+    planets,
+    setPlanets,
+    filterInput,
+    setFilterInput,
+    onInputChange,
+  };
+
   return (
     <MyContext.Provider value={ contextValue }>
       {children}
