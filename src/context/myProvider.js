@@ -5,7 +5,12 @@ import MyContext from './myContext';
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
-  const [filterInput, setFilterInput] = useState({ filterByName: '' });
+  const [filterInput, setFilterInput] = useState({
+    filterByName: '',
+    filterByNumColumn: '',
+    filterByNumOperator: '',
+    filterByNumValue: 0,
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -17,14 +22,11 @@ function Provider({ children }) {
   }, []);
 
   const onInputChange = ({ target }) => {
-    switch (target.id) {
-    case 'filterByName':
-      setFilterInput({ [target.id]: target.value });
-      break;
-    default: break;
-    }
+    setFilterInput((prevState) => ({
+      ...prevState,
+      [target.id]: target.value,
+    }));
   };
-
   const contextValue = {
     planets,
     setPlanets,
@@ -34,9 +36,7 @@ function Provider({ children }) {
   };
 
   return (
-    <MyContext.Provider value={ contextValue }>
-      {children}
-    </MyContext.Provider>
+    <MyContext.Provider value={ contextValue }>{children}</MyContext.Provider>
   );
 }
 
