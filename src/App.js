@@ -1,14 +1,13 @@
 import React from 'react';
 import './App.css';
+import FilterBar from './components/FilterBar';
 import Table from './components/Table';
 import MyProvider from './context/myProvider';
 
 function App() {
   return (
     <MyProvider>
-      <span>
-        Hello, App!
-      </span>
+      <FilterBar />
       <Table />
     </MyProvider>
   );
