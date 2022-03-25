@@ -5,8 +5,8 @@ function FilterBar() {
   const {
     planets,
     onInputChange,
-    applyFilters,
-    filterInput: { filterByNumValue },
+    applyFilter,
+    filterInput: { filterByNumericValues: { column, operator, value } },
   } = useContext(MyContext);
 
   const columnOptionGen = () => {
@@ -33,23 +33,25 @@ function FilterBar() {
         placeholder="Nome do Planeta"
         onChange={ onInputChange }
       />
-      <label htmlFor="filterByNumColumn">
+      <label htmlFor="column">
         Coluna
         <select
-          id="filterByNumColumn"
+          id="column"
           data-testid="column-filter"
           onChange={ onInputChange }
+          value={ column }
         >
           {columnOptionGen()}
         </select>
       </label>
 
-      <label htmlFor="filterByNumOperator">
+      <label htmlFor="operator">
         Operador
         <select
-          id="filterByNumOperator"
+          id="operator"
           data-testid="comparison-filter"
           onChange={ onInputChange }
+          value={ operator }
         >
           <option>maior que</option>
           <option>menor que</option>
@@ -58,12 +60,12 @@ function FilterBar() {
       </label>
       <input
         type="number"
-        id="filterByNumValue"
+        id="value"
         data-testid="value-filter"
         onChange={ onInputChange }
-        value={ filterByNumValue }
+        value={ value }
       />
-      <button type="button" data-testid="button-filter" onClick={ applyFilters }>
+      <button type="button" data-testid="button-filter" onClick={ applyFilter }>
         Filtrar
       </button>
     </>
