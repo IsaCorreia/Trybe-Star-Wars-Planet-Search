@@ -5,34 +5,75 @@ import MyContext from './myContext';
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filterInput, setFilterInput] = useState({
     filterByName: '',
-    filterByNumColumn: '',
-    filterByNumOperator: '',
-    filterByNumValue: 0,
+    filterByNumericValues: {
+      column: 'population',
+      operator: 'maior que',
+      value: 0,
+    },
   });
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetchPlanets();
       setPlanets(response);
+      setFilteredPlanets(response);
     }
 
     fetchData();
   }, []);
 
   const onInputChange = ({ target }) => {
-    setFilterInput((prevState) => ({
-      ...prevState,
-      [target.id]: target.value,
-    }));
+    if (target.id === 'filterByName') {
+      setFilterInput((prevState) => ({ ...prevState, [target.id]: target.value }));
+    } else {
+      setFilterInput((prevState) => ({
+        ...prevState,
+        filterByNumericValues: {
+          ...prevState.filterByNumericValues,
+          [target.id]: target.value,
+        },
+      }));
+    }
   };
+
+  const applyFilter = () => {
+    const { column, operator, value } = filterInput.filterByNumericValues;
+    let newPlanets = [];
+    const numValue = Number(value);
+    switch (operator) {
+    case 'maior que':
+      newPlanets = planets.filter((planet) => Number(planet[column]) >= numValue);
+      console.log('maior que', column, operator, value);
+      setFilteredPlanets(newPlanets);
+      break;
+    case 'menor que':
+      newPlanets = planets.filter((planet) => Number(planet[column]) <= numValue);
+      console.log('menor que', column, operator, value);
+      setFilteredPlanets(newPlanets);
+      break;
+    case 'igual a':
+      newPlanets = planets.filter((planet) => Number(planet[column]) === numValue);
+      console.log('igual a', column, operator, value);
+      setFilteredPlanets(newPlanets);
+      break;
+    default:
+      console.log('default', column, operator, value);
+      return planets;
+    }
+  };
+
   const contextValue = {
+    onInputChange,
+    applyFilter,
     planets,
     setPlanets,
     filterInput,
     setFilterInput,
-    onInputChange,
+    filteredPlanets,
+    setFilteredPlanets,
   };
 
   return (
