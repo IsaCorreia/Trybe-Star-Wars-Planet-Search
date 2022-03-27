@@ -45,22 +45,18 @@ function Provider({ children }) {
     const numValue = Number(value);
     switch (operator) {
     case 'maior que':
-      newPlanets = planets.filter((planet) => Number(planet[column]) >= numValue);
-      console.log('maior que', column, operator, value);
+      newPlanets = planets.filter((planet) => Number(planet[column]) > numValue);
       setFilteredPlanets(newPlanets);
       break;
     case 'menor que':
-      newPlanets = planets.filter((planet) => Number(planet[column]) <= numValue);
-      console.log('menor que', column, operator, value);
+      newPlanets = planets.filter((planet) => Number(planet[column]) < numValue);
       setFilteredPlanets(newPlanets);
       break;
     case 'igual a':
       newPlanets = planets.filter((planet) => Number(planet[column]) === numValue);
-      console.log('igual a', column, operator, value);
       setFilteredPlanets(newPlanets);
       break;
     default:
-      console.log('default', column, operator, value);
       return planets;
     }
   };
