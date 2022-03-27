@@ -25,15 +25,15 @@ function Provider({ children }) {
     fetchData();
   }, []);
 
-  const onInputChange = ({ target }) => {
-    if (target.id === 'filterByName') {
-      setFilterInput((prevState) => ({ ...prevState, [target.id]: target.value }));
+  const onInputChange = ({ target: { id, value } }) => {
+    if (id === 'filterByName') {
+      setFilterInput((prevState) => ({ ...prevState, [id]: value }));
     } else {
       setFilterInput((prevState) => ({
         ...prevState,
         filterByNumericValues: {
           ...prevState.filterByNumericValues,
-          [target.id]: target.value,
+          [id]: value,
         },
       }));
     }
