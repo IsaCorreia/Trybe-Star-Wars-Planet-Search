@@ -5,7 +5,6 @@ import MyContext from "./myContext";
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
-  const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [savedFilters, setSavedFilters] = useState([]);
   const [filterInput, setFilterInput] = useState({
     filterByName: "",
@@ -20,7 +19,6 @@ function Provider({ children }) {
     async function fetchData() {
       const response = await fetchPlanets();
       setPlanets(response);
-      setFilteredPlanets(response);
     }
 
     fetchData();
@@ -69,8 +67,6 @@ function Provider({ children }) {
     setPlanets,
     filterInput,
     setFilterInput,
-    filteredPlanets,
-    setFilteredPlanets,
     savedFilters,
     setSavedFilters,
     applyNumFilter
