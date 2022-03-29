@@ -1,16 +1,17 @@
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import fetchPlanets from '../services/fetchPlanets';
-import MyContext from './myContext';
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import fetchPlanets from "../services/fetchPlanets";
+import MyContext from "./myContext";
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [savedFilters, setSavedFilters] = useState([]);
   const [filterInput, setFilterInput] = useState({
-    filterByName: '',
+    filterByName: "",
     filterByNumericValues: {
-      column: 'population',
-      operator: 'maior que',
+      column: "population",
+      operator: "maior que",
       value: 0,
     },
   });
@@ -26,7 +27,7 @@ function Provider({ children }) {
   }, []);
 
   const onInputChange = ({ target: { id, value } }) => {
-    if (id === 'filterByName') {
+    if (id === "filterByName") {
       setFilterInput((prevState) => ({ ...prevState, [id]: value }));
     } else {
       setFilterInput((prevState) => ({
@@ -40,26 +41,39 @@ function Provider({ children }) {
   };
 
   const applyFilter = () => {
-    const { column, operator, value } = filterInput.filterByNumericValues;
+    const { column, operator, value } = savedFilters;
+    // savedFilters.reduce(({ column, operator, value }) => {
     let newPlanets = [];
     const numValue = Number(value);
+
     switch (operator) {
-    case 'maior que':
-      newPlanets = planets.filter((planet) => Number(planet[column]) > numValue);
-      setFilteredPlanets(newPlanets);
-      break;
-    case 'menor que':
-      newPlanets = planets.filter((planet) => Number(planet[column]) < numValue);
-      setFilteredPlanets(newPlanets);
-      break;
-    case 'igual a':
-      newPlanets = planets.filter((planet) => Number(planet[column]) === numValue);
-      setFilteredPlanets(newPlanets);
-      break;
-    default:
-      return planets;
+      case "maior que":
+        newPlanets = planets.filter(
+          (planet) => Number(planet[column]) > numValue
+        );
+        setFilteredPlanets(newPlanets);
+        break;
+      case "menor que":
+        newPlanets = planets.filter(
+          (planet) => Number(planet[column]) < numValue
+        );
+        setFilteredPlanets(newPlanets);
+        break;
+      case "igual a":
+        newPlanets = planets.filter(
+          (planet) => Number(planet[column]) === numValue
+        );
+        setFilteredPlanets(newPlanets);
+        break;
+      default:
+        return planets;
     }
+    // })
   };
+
+  useEffect(() => {
+    applyFilter();
+  }, [savedFilters]);
 
   const contextValue = {
     onInputChange,
@@ -70,10 +84,12 @@ function Provider({ children }) {
     setFilterInput,
     filteredPlanets,
     setFilteredPlanets,
+    savedFilters,
+    setSavedFilters,
   };
 
   return (
-    <MyContext.Provider value={ contextValue }>{children}</MyContext.Provider>
+    <MyContext.Provider value={contextValue}>{children}</MyContext.Provider>
   );
 }
 

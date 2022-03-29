@@ -5,8 +5,12 @@ function FilterBar() {
   const {
     planets,
     onInputChange,
-    applyFilter,
-    filterInput: { filterByNumericValues: { column, operator, value } },
+    setSavedFilters,
+    savedFilters,
+    filterInput: {
+      filterByNumericValues,
+      filterByNumericValues: { column, operator, value },
+    },
   } = useContext(MyContext);
 
   const columnOptionGen = () => {
@@ -65,7 +69,14 @@ function FilterBar() {
         onChange={ onInputChange }
         value={ value }
       />
-      <button type="button" data-testid="button-filter" onClick={ applyFilter }>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => {
+          setSavedFilters([...savedFilters, filterByNumericValues]);
+          console.log(savedFilters);
+        } }
+      >
         Filtrar
       </button>
     </>
