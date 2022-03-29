@@ -1,16 +1,16 @@
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
-import fetchPlanets from "../services/fetchPlanets";
-import MyContext from "./myContext";
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import fetchPlanets from '../services/fetchPlanets';
+import MyContext from './myContext';
 
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [savedFilters, setSavedFilters] = useState([]);
   const [filterInput, setFilterInput] = useState({
-    filterByName: "",
+    filterByName: '',
     filterByNumericValues: {
-      column: "population",
-      operator: "maior que",
+      column: 'population',
+      operator: 'maior que',
       value: 0,
     },
   });
@@ -25,7 +25,7 @@ function Provider({ children }) {
   }, []);
 
   const onInputChange = ({ target: { id, value } }) => {
-    if (id === "filterByName") {
+    if (id === 'filterByName') {
       setFilterInput((prevState) => ({ ...prevState, [id]: value }));
     } else {
       setFilterInput((prevState) => ({
@@ -42,24 +42,24 @@ function Provider({ children }) {
     const numValue = Number(value);
 
     switch (operator) {
-      case "maior que":
-        return planets.filter((planet) => Number(planet[column]) > numValue);
-      case "menor que":
-        return planets.filter((planet) => Number(planet[column]) < numValue);
-      case "igual a":
-        return planets.filter((planet) => Number(planet[column]) === numValue);
-      default:
-        return planets;
+    case 'maior que':
+      return planets.filter((planet) => Number(planet[column]) > numValue);
+    case 'menor que':
+      return planets.filter((planet) => Number(planet[column]) < numValue);
+    case 'igual a':
+      return planets.filter((planet) => Number(planet[column]) === numValue);
+    default:
+      return planets;
     }
   };
 
   const applyNumFilter = (planetsToFilter) => {
     let filteredPlanets = planetsToFilter;
-    savedFilters.forEach( ( filter ) => {
-      filteredPlanets = runNumFilter( filter );
-    } );
+    savedFilters.forEach((filter) => {
+      filteredPlanets = runNumFilter(filter);
+    });
     return filteredPlanets;
-  }
+  };
 
   const contextValue = {
     onInputChange,
@@ -69,11 +69,11 @@ function Provider({ children }) {
     setFilterInput,
     savedFilters,
     setSavedFilters,
-    applyNumFilter
+    applyNumFilter,
   };
 
   return (
-    <MyContext.Provider value={contextValue}>{children}</MyContext.Provider>
+    <MyContext.Provider value={ contextValue }>{children}</MyContext.Provider>
   );
 }
 
