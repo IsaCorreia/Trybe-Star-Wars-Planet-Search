@@ -40,44 +40,31 @@ function Provider({ children }) {
     }
   };
 
-  const applyFilter = () => {
-    const { column, operator, value } = savedFilters;
-    // savedFilters.reduce(({ column, operator, value }) => {
-    let newPlanets = [];
+  const runNumFilter = ({ column, operator, value }) => {
     const numValue = Number(value);
 
     switch (operator) {
       case "maior que":
-        newPlanets = planets.filter(
-          (planet) => Number(planet[column]) > numValue
-        );
-        setFilteredPlanets(newPlanets);
-        break;
+        return planets.filter((planet) => Number(planet[column]) > numValue);
       case "menor que":
-        newPlanets = planets.filter(
-          (planet) => Number(planet[column]) < numValue
-        );
-        setFilteredPlanets(newPlanets);
-        break;
+        return planets.filter((planet) => Number(planet[column]) < numValue);
       case "igual a":
-        newPlanets = planets.filter(
-          (planet) => Number(planet[column]) === numValue
-        );
-        setFilteredPlanets(newPlanets);
-        break;
+        return planets.filter((planet) => Number(planet[column]) === numValue);
       default:
         return planets;
     }
-    // })
   };
 
-  useEffect(() => {
-    applyFilter();
-  }, [savedFilters]);
+  const applyNumFilter = (planetsToFilter) => {
+    let filteredPlanets = planetsToFilter;
+    savedFilters.forEach( ( filter ) => {
+      filteredPlanets = runNumFilter( filter );
+    } );
+    return filteredPlanets;
+  }
 
   const contextValue = {
     onInputChange,
-    applyFilter,
     planets,
     setPlanets,
     filterInput,
@@ -86,6 +73,7 @@ function Provider({ children }) {
     setFilteredPlanets,
     savedFilters,
     setSavedFilters,
+    applyNumFilter
   };
 
   return (
