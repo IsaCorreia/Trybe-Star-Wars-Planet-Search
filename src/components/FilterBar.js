@@ -74,7 +74,6 @@ function FilterBar() {
         data-testid="button-filter"
         onClick={ () => {
           setSavedFilters([...savedFilters, filterByNumericValues]);
-          console.log(savedFilters);
         } }
       >
         Filtrar
