@@ -38,25 +38,25 @@ function Provider({ children }) {
     }
   };
 
-  const runNumFilter = ({ column, operator, value }) => {
+  const runNumFilter = ({ column, operator, value }, filteredPlanets) => {
     const numValue = Number(value);
 
     switch (operator) {
     case 'maior que':
-      return planets.filter((planet) => Number(planet[column]) > numValue);
+      return filteredPlanets.filter((planet) => Number(planet[column]) > numValue);
     case 'menor que':
-      return planets.filter((planet) => Number(planet[column]) < numValue);
+      return filteredPlanets.filter((planet) => Number(planet[column]) < numValue);
     case 'igual a':
-      return planets.filter((planet) => Number(planet[column]) === numValue);
+      return filteredPlanets.filter((planet) => Number(planet[column]) === numValue);
     default:
-      return planets;
+      return filteredPlanets;
     }
   };
 
   const applyNumFilter = (planetsToFilter) => {
     let filteredPlanets = planetsToFilter;
     savedFilters.forEach((filter) => {
-      filteredPlanets = runNumFilter(filter);
+      filteredPlanets = runNumFilter(filter, filteredPlanets);
     });
     return filteredPlanets;
   };
