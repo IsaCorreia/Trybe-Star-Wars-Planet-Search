@@ -7,26 +7,49 @@ function FilterBar() {
     onInputChange,
     setSavedFilters,
     savedFilters,
+    setFilterInput,
+    filterInput,
     filterInput: {
       filterByNumericValues,
       filterByNumericValues: { column, operator, value },
     },
   } = useContext(MyContext);
 
+  const FILTER_OPTIONS = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const RESET_FILTER_INPUT = {
+    column: 'population', operator: 'maior que', value: 0,
+  };
+
   const columnOptionGen = () => {
     if (planets.length) {
-      const desiredHeads = [
-        'population',
-        'orbital_period',
-        'diameter',
-        'rotation_period',
-        'surface_water',
-      ];
-      return desiredHeads.map((stat, index) => (
-        <option key={ index }>{stat}</option>
+      const newFilterOptions = FILTER_OPTIONS
+        .filter((originalColumns) => (
+          savedFilters.every(({ column: incomingColumn }) => (
+            originalColumns !== incomingColumn))
+        ));
+      console.log('no state:', filterInput.filterByNumericValues.column);
+      console.log('local:', newFilterOptions[0]);
+
+      // RESET_FILTER_INPUT = { ...RESET_FILTER_INPUT, column: newFilterOptions[0] };
+      // setFilterInput(RESET_FILTER_INPUT);
+
+      return newFilterOptions.map((stat, index) => (
+        <option key={ index }>{ stat }</option>
       ));
     }
   };
+
+  const handleClick = () => {
+    setSavedFilters([...savedFilters, filterByNumericValues]);
+  };
+
   return (
     <>
       <h3>Filtros:</h3>
@@ -72,12 +95,17 @@ function FilterBar() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => {
-          setSavedFilters([...savedFilters, filterByNumericValues]);
-        } }
+        onClick={ handleClick }
       >
         Filtrar
       </button>
+      {savedFilters.length
+        ? savedFilters.map((filter, index) => (
+          <p key={ index }>
+            {`${filter.column} ${filter.operator} ${filter.value}`}
+          </p>
+        ))
+        : null}
     </>
   );
 }
