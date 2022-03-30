@@ -86,6 +86,13 @@ function FilterBar() {
       Limpar tudo:
       Button, onClick => setSavedFilters([])
        */}
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ () => setSavedFilters([]) }
+      >
+        Limpar Filtros
+      </button>
 
       {/*
       Excluir 1 filtro:
