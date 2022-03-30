@@ -64,7 +64,7 @@ function Table() {
       <thead>
         <tr>{tableHeadGen()}</tr>
       </thead>
-      <tbody>{planets.length && tableContentGen()}</tbody>
+      <tbody>{tableContentGen()}</tbody>
     </table>
   );
 }
