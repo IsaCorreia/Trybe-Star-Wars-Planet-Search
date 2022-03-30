@@ -7,7 +7,7 @@ function FilterBar() {
     onInputChange,
     setSavedFilters,
     savedFilters,
-    setFilterInput,
+    desiredHeads,
     filterInput,
     filterInput: {
       filterByNumericValues,
@@ -15,21 +15,9 @@ function FilterBar() {
     },
   } = useContext(MyContext);
 
-  const FILTER_OPTIONS = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
-
-  const RESET_FILTER_INPUT = {
-    column: 'population', operator: 'maior que', value: 0,
-  };
-
   const columnOptionGen = () => {
     if (planets.length) {
-      const newFilterOptions = FILTER_OPTIONS
+      const newFilterOptions = desiredHeads
         .filter((originalColumns) => (
           savedFilters.every(({ column: incomingColumn }) => (
             originalColumns !== incomingColumn))

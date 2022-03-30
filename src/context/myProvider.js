@@ -14,6 +14,14 @@ function Provider({ children }) {
       value: 0,
     },
   });
+  const DESIRED_HEADS = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+  const [desiredHeads, setDesiredHeads] = useState(DESIRED_HEADS);
 
   useEffect(() => {
     async function fetchData() {
@@ -70,6 +78,8 @@ function Provider({ children }) {
     savedFilters,
     setSavedFilters,
     applyNumFilter,
+    desiredHeads,
+    setDesiredHeads,
   };
 
   return (
