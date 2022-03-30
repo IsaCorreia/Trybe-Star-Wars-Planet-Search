@@ -8,7 +8,6 @@ function FilterBar() {
     setSavedFilters,
     savedFilters,
     desiredHeads,
-    filterInput,
     filterInput: {
       filterByNumericValues,
       filterByNumericValues: { column, operator, value },
@@ -22,11 +21,6 @@ function FilterBar() {
           savedFilters.every(({ column: incomingColumn }) => (
             originalColumns !== incomingColumn))
         ));
-      console.log('no state:', filterInput.filterByNumericValues.column);
-      console.log('local:', newFilterOptions[0]);
-
-      // RESET_FILTER_INPUT = { ...RESET_FILTER_INPUT, column: newFilterOptions[0] };
-      // setFilterInput(RESET_FILTER_INPUT);
 
       return newFilterOptions.map((stat, index) => (
         <option key={ index }>{ stat }</option>
@@ -87,6 +81,18 @@ function FilterBar() {
       >
         Filtrar
       </button>
+
+      {/*
+      Limpar tudo:
+      Button, onClick => setSavedFilters([])
+       */}
+
+      {/*
+      Excluir 1 filtro:
+      button com "X", name=column, onClick => setDesiredHeads((prevState) => {...prevState, name})
+       setSavedFilters.filter( filter.name != name)
+       */}
+
       {savedFilters.length
         ? savedFilters.map((filter, index) => (
           <p key={ index }>

@@ -3,9 +3,18 @@ import React, { useEffect, useState } from 'react';
 import fetchPlanets from '../services/fetchPlanets';
 import MyContext from './myContext';
 
+const DESIRED_HEADS = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [savedFilters, setSavedFilters] = useState([]);
+  const [desiredHeads, setDesiredHeads] = useState(DESIRED_HEADS);
   const [filterInput, setFilterInput] = useState({
     filterByName: '',
     filterByNumericValues: {
@@ -14,14 +23,6 @@ function Provider({ children }) {
       value: 0,
     },
   });
-  const DESIRED_HEADS = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
-  const [desiredHeads, setDesiredHeads] = useState(DESIRED_HEADS);
 
   useEffect(() => {
     async function fetchData() {
