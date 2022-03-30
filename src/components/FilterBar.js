@@ -31,6 +31,11 @@ function FilterBar() {
   const handleClick = () => {
     setSavedFilters([...savedFilters, filterByNumericValues]);
   };
+  const handleRemoveFilter = ({ target }) => {
+    const newSavedFilters = savedFilters
+      .filter((filter) => filter.column !== target.name);
+    setSavedFilters(newSavedFilters);
+  };
 
   return (
     <>
@@ -82,10 +87,6 @@ function FilterBar() {
         Filtrar
       </button>
 
-      {/*
-      Limpar tudo:
-      Button, onClick => setSavedFilters([])
-       */}
       <button
         type="button"
         data-testid="button-remove-filters"
@@ -102,9 +103,18 @@ function FilterBar() {
 
       {savedFilters.length
         ? savedFilters.map((filter, index) => (
-          <p key={ index }>
-            {`${filter.column} ${filter.operator} ${filter.value}`}
-          </p>
+          <div data-testid="filter" key={ index }>
+            <span>
+              {`${filter.column} ${filter.operator} ${filter.value}`}
+            </span>
+            <button
+              type="button"
+              name={ filter.column }
+              onClick={ handleRemoveFilter }
+            >
+              X
+            </button>
+          </div>
         ))
         : null}
     </>
