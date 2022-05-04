@@ -22,15 +22,15 @@ function FilterBar() {
             originalColumns !== incomingColumn))
         ));
 
-      return newFilterOptions.map((stat, index) => (
-        <option key={ index }>{ stat }</option>
-      ));
+      return newFilterOptions;
     }
+    return planets;
   };
 
   const handleClick = () => {
     setSavedFilters([...savedFilters, filterByNumericValues]);
   };
+
   const handleRemoveFilter = ({ target }) => {
     const newSavedFilters = savedFilters
       .filter((filter) => filter.column !== target.name);
@@ -55,7 +55,9 @@ function FilterBar() {
           onChange={ onInputChange }
           value={ column }
         >
-          {columnOptionGen()}
+          {columnOptionGen().map((stat, index) => (
+            <option key={ index }>{ stat }</option>
+          ))}
         </select>
       </label>
 
@@ -94,12 +96,6 @@ function FilterBar() {
       >
         Limpar Filtros
       </button>
-
-      {/*
-      Excluir 1 filtro:
-      button com "X", name=column, onClick => setDesiredHeads((prevState) => {...prevState, name})
-       setSavedFilters.filter( filter.name != name)
-       */}
 
       {savedFilters.length
         ? savedFilters.map((filter, index) => (
